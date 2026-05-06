@@ -62,14 +62,22 @@ When asked to "apply improvements" or "fix the code":
 
 **Efficiency requirement:** Apply all fixes to `script.js` in a single pass. The failing tests describe exactly what to fix.
 
-### Step 4 — Reset for Next Demo
+### Step 4 — Push to GitHub
+When asked to "push to github", "commit and push", or "publish changes":
+1. Stage all changes with `git add -A`.
+2. Commit with a descriptive message summarizing all work done (documentation, tests, fixes).
+3. Push to `origin main`.
+4. Confirm the push succeeded and note the GitHub Pages URL will update shortly.
+
+### Step 5 — Reset for Next Demo
 When asked to "reset the environment", "reset for demo", or "prepare for next demonstration":
 1. Replace `index.html` with the contents of `_baseline/index.html` (two tabs only, no guides).
 2. Replace `script.js` with the contents of `_baseline/script.js` (the original flawed version).
 3. Replace `tests.js` with the contents of `_baseline/tests.js` (the empty placeholder).
 4. Replace `styles.css` with the contents of `_baseline/styles.css`.
 5. Remove `user-guide.html` and `developer-guide.html` if they exist.
-6. Confirm all files have been restored.
+6. Commit and push the reset to keep local and GitHub in sync.
+7. Confirm all files have been restored.
 
 ## Important Notes
 
