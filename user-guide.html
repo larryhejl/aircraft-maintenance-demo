@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Guide — Aircraft Maintenance Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 2rem; color: #1a1a2e; background: #f8f9fa; }
+        h1 { color: #16213e; border-bottom: 3px solid #0f3460; padding-bottom: 0.5rem; }
+        h2 { color: #0f3460; margin-top: 2rem; }
+        h3 { color: #533483; }
+        .back-link { display: inline-block; margin-bottom: 1.5rem; color: #0f3460; text-decoration: none; font-weight: 600; }
+        .back-link:hover { text-decoration: underline; }
+        .tip { background: #e8f4fd; border-left: 4px solid #0f3460; padding: 1rem; margin: 1rem 0; border-radius: 0 4px 4px 0; }
+        .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 1rem; margin: 1rem 0; border-radius: 0 4px 4px 0; }
+        code { background: #e9ecef; padding: 0.2rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+        table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+        th, td { border: 1px solid #dee2e6; padding: 0.75rem; text-align: left; }
+        th { background: #0f3460; color: white; }
+        tr:nth-child(even) { background: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Dashboard</a>
+    <h1>User Guide</h1>
+
+    <h2>Overview</h2>
+    <p>The Aircraft Maintenance Dashboard provides an interactive view of maintenance events for military aircraft. Use filters, charts, and the data table to explore scheduled inspections, unscheduled repairs, component replacements, and operational checks.</p>
+
+    <h2>Getting Started</h2>
+    <ol>
+        <li>Open <code>index.html</code> in any modern browser (Chrome, Edge, Firefox, Safari).</li>
+        <li>The dashboard loads automatically with sample data.</li>
+        <li>Use the tabs at the top to switch between the Dashboard view and Unit Tests.</li>
+    </ol>
+
+    <h2>Using Filters</h2>
+    <p>The control bar at the top of the Dashboard tab provides four filters:</p>
+    <table>
+        <thead>
+            <tr><th>Filter</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Aircraft</td><td>Filter by specific aircraft tail number (e.g., F-15A #101)</td></tr>
+            <tr><td>Event Type</td><td>Filter by maintenance category (Inspection, Repair, Replacement, Check)</td></tr>
+            <tr><td>System</td><td>Filter by aircraft system (Avionics, Engine, Hydraulics, etc.)</td></tr>
+            <tr><td>Status</td><td>Filter by event status (Completed, Pending, In Progress, Overdue)</td></tr>
+        </tbody>
+    </table>
+    <div class="tip"><strong>Tip:</strong> Select "All" in any filter to remove that constraint. Filters combine — selecting both an aircraft and a status shows only matching events.</div>
+
+    <h2>Reading the Data Table</h2>
+    <p>The main table displays filtered maintenance events with these columns:</p>
+    <ul>
+        <li><strong>Date</strong> — When the maintenance event occurred or is scheduled</li>
+        <li><strong>Aircraft</strong> — The tail number and type</li>
+        <li><strong>Event Type</strong> — Category of maintenance</li>
+        <li><strong>System</strong> — Aircraft subsystem involved</li>
+        <li><strong>Description</strong> — Brief summary of the work</li>
+        <li><strong>Status</strong> — Current state of the event</li>
+    </ul>
+    <p>Click any row to view full event details in the detail panel on the right.</p>
+
+    <h2>Understanding the Charts</h2>
+    <h3>Events Over Time (Bar Chart)</h3>
+    <p>The stacked bar chart shows event counts grouped by month. Use the "Split by" dropdown to facet the chart by Aircraft, System, Event Type, or Status.</p>
+
+    <h3>Status Breakdown (Pie Chart)</h3>
+    <p>The pie chart shows the proportion of events in each status category, giving a quick health overview of the maintenance program.</p>
+
+    <h2>Running Unit Tests</h2>
+    <ol>
+        <li>Click the <strong>Unit Tests</strong> tab.</li>
+        <li>Click <strong>Run Unit Tests</strong>.</li>
+        <li>Review the pass/fail donut, coverage ring, and detailed results table.</li>
+    </ol>
+    <div class="tip"><strong>Tip:</strong> Failing tests indicate code improvement opportunities. Read the "Details" column for specific recommendations.</div>
+
+    <h2>Troubleshooting</h2>
+    <table>
+        <thead>
+            <tr><th>Issue</th><th>Solution</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Page is blank</td><td>Ensure all files (index.html, script.js, styles.css, tests.js) are in the same directory.</td></tr>
+            <tr><td>Charts don't render</td><td>Check browser console for JavaScript errors. Ensure you're using a modern browser.</td></tr>
+            <tr><td>Filters show no options</td><td>The data loads on page init. Try refreshing the page.</td></tr>
+            <tr><td>Tests show "Not run yet"</td><td>Click the "Run Unit Tests" button on the Unit Tests tab.</td></tr>
+        </tbody>
+    </table>
+
+    <div class="warning"><strong>Note:</strong> This application uses sample data for demonstration purposes. It does not connect to any live maintenance systems.</div>
+</body>
+</html>

@@ -84,12 +84,16 @@ const testCoverageChart = document.getElementById('test-coverage-chart');
 
 // Utility: parse YYYY-MM-DD into Date
 function parseEventDate(event) {
-    return new Date(event.date + 'T00:00:00Z');
+    if (!event || !event.date || typeof event.date !== 'string') {
+        return null;
+    }
+    const d = new Date(event.date + 'T00:00:00Z');
+    return isNaN(d.getTime()) ? null : d;
 }
 
 // Filter events based on current selections
-function filterEvents(events, filters) {
-    const now = new Date();
+function filterEvents(events, filters, referenceDate) {
+    const now = referenceDate || new Date();
 
     return events.filter((e) => {
         if (filters.aircraft && filters.aircraft !== 'all' && e.aircraft !== filters.aircraft) {
@@ -122,6 +126,7 @@ function groupEventsByMonth(events) {
 
     events.forEach((e) => {
         const d = parseEventDate(e);
+        if (!d) return;
         const key = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
         if (!buckets[key]) {
             buckets[key] = 0;
@@ -149,28 +154,28 @@ function populateFilters(events) {
         statusSet.add(e.status);
     });
 
-    for (const value of aircraftSet) {
+    for (const value of [...aircraftSet].sort()) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
         aircraftFilter.appendChild(option);
     }
 
-    for (const value of eventTypeSet) {
+    for (const value of [...eventTypeSet].sort()) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
         eventTypeFilter.appendChild(option);
     }
 
-    for (const value of systemSet) {
+    for (const value of [...systemSet].sort()) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
         systemFilter.appendChild(option);
     }
 
-    for (const value of statusSet) {
+    for (const value of [...statusSet].sort()) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
@@ -197,12 +202,18 @@ function renderTable(events) {
         const row = document.createElement('tr');
         row.dataset.id = String(e.id);
 
+        const escapeHtml = (str) => {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        };
+
         row.innerHTML = `
-            <td>${e.date}</td>
-            <td>${e.aircraft}</td>
-            <td>${e.system}</td>
-            <td>${e.eventType}</td>
-            <td>${e.status}</td>
+            <td>${escapeHtml(e.date)}</td>
+            <td>${escapeHtml(e.aircraft)}</td>
+            <td>${escapeHtml(e.system)}</td>
+            <td>${escapeHtml(e.eventType)}</td>
+            <td>${escapeHtml(e.status)}</td>
         `;
 
         row.addEventListener('click', () => showEventDetail(e));
