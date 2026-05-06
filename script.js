@@ -82,16 +82,9 @@ const testResultsBody = document.querySelector('#test-results tbody');
 const testPassFailChart = document.getElementById('test-passfail-chart');
 const testCoverageChart = document.getElementById('test-coverage-chart');
 
-// Utility: parse YYYY-MM-DD into Date (with validation)
+// Utility: parse YYYY-MM-DD into Date
 function parseEventDate(event) {
-    if (!event || !event.date || typeof event.date !== 'string') {
-        return null;
-    }
-    const d = new Date(event.date + 'T00:00:00Z');
-    if (isNaN(d.getTime())) {
-        return null;
-    }
-    return d;
+    return new Date(event.date + 'T00:00:00Z');
 }
 
 // Filter events based on current selections
@@ -115,8 +108,7 @@ function filterEvents(events, filters) {
             const days = Number(filters.dateRangeDays);
             const cutoff = new Date(now);
             cutoff.setDate(cutoff.getDate() - days);
-            const parsed = parseEventDate(e);
-            if (!parsed || parsed < cutoff) {
+            if (parseEventDate(e) < cutoff) {
                 return false;
             }
         }
@@ -130,7 +122,6 @@ function groupEventsByMonth(events) {
 
     events.forEach((e) => {
         const d = parseEventDate(e);
-        if (!d) return;
         const key = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
         if (!buckets[key]) {
             buckets[key] = 0;
@@ -158,28 +149,28 @@ function populateFilters(events) {
         statusSet.add(e.status);
     });
 
-    for (const value of Array.from(aircraftSet).sort()) {
+    for (const value of aircraftSet) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
         aircraftFilter.appendChild(option);
     }
 
-    for (const value of Array.from(eventTypeSet).sort()) {
+    for (const value of eventTypeSet) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
         eventTypeFilter.appendChild(option);
     }
 
-    for (const value of Array.from(systemSet).sort()) {
+    for (const value of systemSet) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
         systemFilter.appendChild(option);
     }
 
-    for (const value of Array.from(statusSet).sort()) {
+    for (const value of statusSet) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
@@ -206,22 +197,13 @@ function renderTable(events) {
         const row = document.createElement('tr');
         row.dataset.id = String(e.id);
 
-        const cellDate = document.createElement('td');
-        cellDate.textContent = e.date;
-        const cellAircraft = document.createElement('td');
-        cellAircraft.textContent = e.aircraft;
-        const cellSystem = document.createElement('td');
-        cellSystem.textContent = e.system;
-        const cellEventType = document.createElement('td');
-        cellEventType.textContent = e.eventType;
-        const cellStatus = document.createElement('td');
-        cellStatus.textContent = e.status;
-
-        row.appendChild(cellDate);
-        row.appendChild(cellAircraft);
-        row.appendChild(cellSystem);
-        row.appendChild(cellEventType);
-        row.appendChild(cellStatus);
+        row.innerHTML = `
+            <td>${e.date}</td>
+            <td>${e.aircraft}</td>
+            <td>${e.system}</td>
+            <td>${e.eventType}</td>
+            <td>${e.status}</td>
+        `;
 
         row.addEventListener('click', () => showEventDetail(e));
         eventsTableBody.appendChild(row);
@@ -277,7 +259,6 @@ function renderChart(events, facet) {
 
     events.forEach((e) => {
         const d = parseEventDate(e);
-        if (!d) return;
         const monthKey = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
         const value = e[field];
         categorySet.add(value);
