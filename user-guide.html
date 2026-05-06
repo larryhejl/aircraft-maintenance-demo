@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Guide — Aircraft Maintenance Dashboard</title>
+    <style>
+        body { margin: 0; padding: 24px 32px; font-family: Arial, sans-serif; background: #f9fafb; color: #222; line-height: 1.6; max-width: 900px; margin: 0 auto; }
+        h1 { color: #003366; margin-bottom: 4px; }
+        h2 { color: #003366; border-bottom: 2px solid #dde5f0; padding-bottom: 6px; margin-top: 32px; }
+        h3 { color: #1a4d80; margin-top: 24px; }
+        a.back-link { display: inline-block; margin-bottom: 16px; color: #003366; text-decoration: none; font-weight: bold; }
+        a.back-link:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+        th, td { border: 1px solid #ccd6e0; padding: 8px 12px; text-align: left; }
+        th { background: #dde5f0; }
+        code { background: #eef2f7; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+        .tip { background: #e8f4e8; border-left: 4px solid #4caf50; padding: 12px 16px; margin: 16px 0; border-radius: 4px; }
+        .warning { background: #fff3e0; border-left: 4px solid #ff9800; padding: 12px 16px; margin: 16px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">&larr; Back to Dashboard</a>
+    <h1>User Guide</h1>
+    <p>This guide covers everything you need to explore and analyze maintenance events in the dashboard.</p>
+
+    <h2>Overview</h2>
+    <ul>
+        <li><strong>Filterable event table</strong> — narrow down by aircraft, system, status, event type, or date range.</li>
+        <li><strong>Event detail panel</strong> — full details for any selected event.</li>
+        <li><strong>Charts</strong> — line chart of events over time and a status pie chart.</li>
+        <li><strong>Unit Tests tab</strong> — run built-in tests and view results.</li>
+    </ul>
+
+    <h2>Getting Started</h2>
+    <ol>
+        <li>Open the app in a modern browser (Chrome, Edge, Firefox, Safari).</li>
+        <li>The dashboard loads 120 sample events spanning one year.</li>
+        <li>Use tabs at the top to navigate between views.</li>
+    </ol>
+
+    <h2>Filters</h2>
+    <table>
+        <thead><tr><th>Filter</th><th>Description</th><th>Options</th></tr></thead>
+        <tbody>
+            <tr><td>Aircraft</td><td>Aircraft type</td><td>All, F-16C, F-15E, C-130J</td></tr>
+            <tr><td>Event Type</td><td>Maintenance category</td><td>All, Unscheduled Repair, Scheduled Inspection, Time Change</td></tr>
+            <tr><td>System</td><td>Aircraft system</td><td>All, Engine, Avionics, Hydraulics, Flight Controls, Landing Gear, Propeller</td></tr>
+            <tr><td>Status</td><td>Event status</td><td>All, Complete, In Work, Awaiting Parts</td></tr>
+            <tr><td>Date Range</td><td>Recency</td><td>All, Last 90 days, Last year</td></tr>
+        </tbody>
+    </table>
+    <div class="tip"><strong>Tip:</strong> Filters combine — "F-16C" + "Engine" shows only F-16C engine events.</div>
+
+    <h2>Events Table</h2>
+    <p>Shows Date, Aircraft, System, Event Type, and Status. Click any row to see details below.</p>
+
+    <h2>Charts</h2>
+    <h3>Events Over Time</h3>
+    <p>Multi-line chart grouped by month. Use "Split by" to color by Aircraft, System, Event Type, or Status.</p>
+    <h3>Status Breakdown</h3>
+    <p>Donut chart showing Complete / In Work / Awaiting Parts proportions.</p>
+
+    <h2>Unit Tests Tab</h2>
+    <ol>
+        <li>Click "Run Unit Tests" to execute.</li>
+        <li>View metrics, pass/fail chart, coverage ring, and detailed results table.</li>
+    </ol>
+
+    <h2>Troubleshooting</h2>
+    <table>
+        <thead><tr><th>Issue</th><th>Solution</th></tr></thead>
+        <tbody>
+            <tr><td>No events shown</td><td>Reset filters to "All"</td></tr>
+            <tr><td>Charts blank</td><td>Use a modern browser</td></tr>
+            <tr><td>Tests "Not run yet"</td><td>Click "Run Unit Tests"</td></tr>
+        </tbody>
+    </table>
+
+    <div class="warning"><strong>Note:</strong> Demo data only — not real maintenance information.</div>
+
+    <footer style="margin-top: 40px; padding-top: 16px; border-top: 1px solid #ccd6e0; color: #666; font-size: 0.85rem;">
+        Aircraft Maintenance Dashboard &mdash; User Guide
+    </footer>
+</body>
+</html>

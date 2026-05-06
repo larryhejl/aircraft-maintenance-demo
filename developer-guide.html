@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer Guide — Aircraft Maintenance Dashboard</title>
+    <style>
+        body { margin: 0; padding: 24px 32px; font-family: Arial, sans-serif; background: #f9fafb; color: #222; line-height: 1.6; max-width: 900px; margin: 0 auto; }
+        h1 { color: #003366; margin-bottom: 4px; }
+        h2 { color: #003366; border-bottom: 2px solid #dde5f0; padding-bottom: 6px; margin-top: 32px; }
+        h3 { color: #1a4d80; margin-top: 24px; }
+        a.back-link { display: inline-block; margin-bottom: 16px; color: #003366; text-decoration: none; font-weight: bold; }
+        a.back-link:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+        th, td { border: 1px solid #ccd6e0; padding: 8px 12px; text-align: left; }
+        th { background: #dde5f0; }
+        code { background: #eef2f7; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+        pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 0.85em; }
+        pre code { background: none; padding: 0; color: inherit; }
+        .note { background: #e3f2fd; border-left: 4px solid #2196f3; padding: 12px 16px; margin: 16px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">&larr; Back to Dashboard</a>
+    <h1>Developer Guide</h1>
+    <p>Technical reference for developing and extending the Aircraft Maintenance Dashboard.</p>
+
+    <h2>Architecture</h2>
+    <table>
+        <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+        <tbody>
+            <tr><td><code>index.html</code></td><td>Page structure, tabs, containers</td></tr>
+            <tr><td><code>styles.css</code></td><td>All styling</td></tr>
+            <tr><td><code>script.js</code></td><td>Logic: data generation, filtering, rendering, charts</td></tr>
+            <tr><td><code>tests.js</code></td><td>In-browser unit tests</td></tr>
+            <tr><td><code>maintenance-data.json</code></td><td>Static reference data (not loaded at runtime)</td></tr>
+        </tbody>
+    </table>
+    <p>No build step required — open <code>index.html</code> in a browser or deploy to GitHub Pages.</p>
+
+    <h2>Repository</h2>
+    <ul>
+        <li><strong>Hosting:</strong> GitHub Pages (static deploy from <code>main</code> branch)</li>
+        <li><strong>Live URL:</strong> <code>https://larryhejl.github.io/aircraft-maintenance-demo/</code></li>
+        <li><strong>Deployment:</strong> Automatic on push to <code>main</code></li>
+        <li><strong>Branch strategy:</strong> Direct push to <code>main</code> for simplicity</li>
+    </ul>
+
+    <h2>Data Flow</h2>
+    <pre><code>createDemoEvents()
+    │
+    ▼
+maintenanceEvents (120 events)
+    │
+    ├── populateFilters() → dropdown options
+    ├── filterEvents(events, filters) → filtered subset
+    │       ├── renderTable(filtered)
+    │       ├── renderChart(filtered, facet)
+    │       └── renderStatusPie(filtered)
+    └── Filter/facet change → re-runs pipeline</code></pre>
+
+    <h2>Function Reference</h2>
+    <h3><code>createDemoEvents() → Event[]</code></h3>
+    <p>Generates 120 randomized events spanning one year.</p>
+
+    <h3><code>parseEventDate(event) → Date</code></h3>
+    <p>Converts <code>YYYY-MM-DD</code> string to UTC Date.</p>
+
+    <h3><code>filterEvents(events, filters) → Event[]</code></h3>
+    <p>Filters by aircraft, eventType, system, status, dateRangeDays.</p>
+
+    <h3><code>groupEventsByMonth(events) → {month, count}[]</code></h3>
+    <p>Buckets events by <code>YYYY-MM</code>, returns sorted array.</p>
+
+    <h3><code>populateFilters(events) → void</code></h3>
+    <p>Populates filter dropdowns with unique values.</p>
+
+    <h3><code>renderTable(events) → void</code></h3>
+    <p>Renders event rows, attaches click handlers for detail view.</p>
+
+    <h3><code>renderChart(events, facet) → void</code></h3>
+    <p>SVG multi-series line chart split by facet.</p>
+
+    <h3><code>renderStatusPie(events) → void</code></h3>
+    <p>SVG donut chart of status distribution.</p>
+
+    <h3><code>initializeDashboard() → void</code></h3>
+    <p>Entry point: wires tabs, filters, listeners, initial render.</p>
+
+    <h2>Event Schema</h2>
+    <pre><code>{
+    id: number,           // 1–120
+    aircraft: string,     // "F-16C" | "F-15E" | "C-130J"
+    tailNumber: string,   // e.g. "89-2034"
+    system: string,       // "Engine" | "Avionics" | "Hydraulics" | ...
+    eventType: string,    // "Unscheduled Repair" | "Scheduled Inspection" | "Time Change"
+    status: string,       // "Complete" | "In Work" | "Awaiting Parts"
+    date: string,         // "YYYY-MM-DD"
+    hoursDown: number,    // 4–47
+    description: string
+}</code></pre>
+
+    <h2>Test Contract</h2>
+    <pre><code>window.runAllTests = function() {
+    return {
+        total, passed, failed, coveragePercent,
+        results: [{ name, status, durationMs, details? }]
+    };
+};</code></pre>
+    <div class="note">Tests run synchronously in-browser. The dashboard UI renders metrics from the return value.</div>
+
+    <h2>Extension Patterns</h2>
+    <h3>New Filter</h3>
+    <ol>
+        <li>Add <code>&lt;select&gt;</code> in <code>#controls</code></li>
+        <li>Populate in <code>populateFilters()</code></li>
+        <li>Add condition in <code>filterEvents()</code></li>
+        <li>Wire change listener in <code>initializeDashboard()</code></li>
+    </ol>
+    <h3>New Tab</h3>
+    <ol>
+        <li>Add <code>&lt;button class="tab-button" data-tab="name"&gt;</code> to <code>#tab-bar</code></li>
+        <li>Add <code>&lt;div id="name-tab" class="tab-panel"&gt;</code></li>
+        <li>Tab logic handles activation automatically</li>
+    </ol>
+
+    <h2>Known Limitations</h2>
+    <ul>
+        <li>Demo data regenerates on each page load</li>
+        <li>No persistence between sessions</li>
+        <li>Client-side only</li>
+        <li>SVG/CSS charts — limited interactivity</li>
+        <li>Minimal accessibility</li>
+        <li>Date filtering relative to client clock</li>
+    </ul>
+
+    <footer style="margin-top: 40px; padding-top: 16px; border-top: 1px solid #ccd6e0; color: #666; font-size: 0.85rem;">
+        Aircraft Maintenance Dashboard &mdash; Developer Guide
+    </footer>
+</body>
+</html>
