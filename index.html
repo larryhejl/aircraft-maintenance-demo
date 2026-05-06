@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aircraft Maintenance Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        <h1>Aircraft Maintenance Dashboard</h1>
+        <p>Explore sample military aircraft maintenance events.</p>
+    </header>
+
+    <nav id="tab-bar">
+        <button class="tab-button tab-active" data-tab="dashboard">Dashboard</button>
+        <button class="tab-button" data-tab="tests">Unit Tests</button>
+    </nav>
+
+    <div id="dashboard-tab" class="tab-panel tab-active">
+        <section id="controls">
+            <div class="control-group">
+                <label for="aircraft-filter">Aircraft:</label>
+                <select id="aircraft-filter">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="event-type-filter">Event Type:</label>
+                <select id="event-type-filter">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="system-filter">System:</label>
+                <select id="system-filter">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="status-filter">Status:</label>
+                <select id="status-filter">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="date-range-filter">Date Range:</label>
+                <select id="date-range-filter">
+                    <option value="all">All</option>
+                    <option value="90">Last 90 days</option>
+                    <option value="365">Last year</option>
+                </select>
+            </div>
+        </section>
+
+        <main>
+            <section id="table-section">
+                <h2>Maintenance Events</h2>
+                <table id="events-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Aircraft</th>
+                            <th>System</th>
+                            <th>Event Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Filled by script -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="detail-section">
+                <h2>Event Detail</h2>
+                <div id="event-detail">
+                    <p>Select an event from the table to see details.</p>
+                </div>
+            </section>
+
+            <section id="chart-section">
+                <div id="chart-header">
+                    <h2>Events Over Time</h2>
+                    <div id="chart-facet-control">
+                        <label for="chart-facet">Split by:</label>
+                        <select id="chart-facet">
+                            <option value="aircraft">Aircraft</option>
+                            <option value="system">System</option>
+                            <option value="eventType">Event Type</option>
+                            <option value="status">Status</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chart-container">
+                    <!-- Bars injected by script -->
+                </div>
+                <div id="chart-legend"></div>
+                <h3>Status Breakdown</h3>
+                <div id="status-pie-container">
+                    <div id="status-pie"></div>
+                </div>
+                <div id="status-pie-legend"></div>
+            </section>
+        </main>
+    </div>
+
+    <div id="tests-tab" class="tab-panel">
+        <section id="tests-section">
+            <h2>Unit Tests</h2>
+            <p class="tests-description">
+                This panel will display JavaScript unit test results for the dashboard logic.
+            </p>
+
+            <div id="test-controls">
+                <button id="run-tests-button">Run Unit Tests</button>
+                <span id="test-run-status">Not run yet.</span>
+            </div>
+
+            <div id="test-metrics">
+                <div class="test-metric">
+                    <div class="test-metric-label">Total tests</div>
+                    <div class="test-metric-value" id="metric-total-tests">0</div>
+                </div>
+                <div class="test-metric">
+                    <div class="test-metric-label">Tests run</div>
+                    <div class="test-metric-value" id="metric-tests-run">0</div>
+                </div>
+                <div class="test-metric">
+                    <div class="test-metric-label">Passed</div>
+                    <div class="test-metric-value" id="metric-tests-passed">0</div>
+                </div>
+                <div class="test-metric">
+                    <div class="test-metric-label">Failed</div>
+                    <div class="test-metric-value" id="metric-tests-failed">0</div>
+                </div>
+                <div class="test-metric">
+                    <div class="test-metric-label">Coverage</div>
+                    <div class="test-metric-value" id="metric-coverage">—</div>
+                </div>
+            </div>
+
+            <div id="test-charts">
+                <div class="test-chart-block">
+                    <h3>Pass vs Fail</h3>
+                    <div id="test-passfail-chart" class="test-chart-placeholder">
+                        No test results yet.
+                    </div>
+                </div>
+                <div class="test-chart-block">
+                    <h3>Coverage</h3>
+                    <div id="test-coverage-chart" class="test-chart-placeholder">
+                        No coverage data yet.
+                    </div>
+                </div>
+            </div>
+
+            <table id="test-results">
+                <thead>
+                    <tr>
+                        <th>Test</th>
+                        <th>Status</th>
+                        <th>Duration</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">No tests have been run.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <footer>
+        <small>Demo data only &mdash; not real maintenance information.</small>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="tests.js"></script>
+</body>
+</html>
